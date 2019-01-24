@@ -1,0 +1,56 @@
+<div class="mainclass">
+    <h2>User CRUD Application</h2>
+
+        <!-----------Activation of Table And Record------------------>
+
+    <a (click)="recordList1()" [ngClass]="{active_link_table:allData.data!=null, disable:allData.data==null}">Record List</a>&nbsp;|
+    <a (click)="addRecord()"  [ngClass]="{active_link_table:allData.data==null&&!initial_msg ,disable:allData.data!=null}">Add Record</a><br><br>
+        
+        <!-----------Wait Msg----------------------->
+
+    <ng-container *ngIf="initial_msg">
+        Please wait while we are getting user details...
+    </ng-container>
+
+        <!-----------Table Of data------------------>
+
+    <div *ngIf="allData.data!=null" class=tab-row>
+
+        <!------------header------------------------>
+
+        <div class="cellhead">Firstname</div>
+        <div class="cellhead">Lastname</div>
+        <div class="cellhead">Avatar</div>
+        <div class="cellhead-border">Action</div>
+        <div style="clear: both"></div>
+
+        <!-------------table-details-------------->
+
+        <div *ngFor="let record of allData.data" class="tab-row">
+            <div class="cell">{{record.first_name}}</div>
+            <div class="cell">{{record.last_name}}</div>
+            <div class="cell"><img src="{{record.avatar}}" height="40px" width="40px" /></div>
+            <div class="cellborder"> <a (click)="onupdate(record)" class="linkclass">Edit</a> | <a (click)="ondelete(record)"class="linkclass">Delete</a></div>
+        </div>
+
+        <!-------------pagination----------->
+
+        <div class="pages" *ngIf="allData.data!=null">
+            <ng-container *ngFor="let record of page_array" class="pages">
+                <button (click)="recordList1(record)" class="normalbutton" [ngClass]="{'active':allData.data!=null&&record==allData.page}">{{record}}</button>
+            </ng-container>
+            &nbsp;
+            <ng-container *ngIf="allData.data!=null&&pagination">Fetching data..</ng-container>
+        </div>
+    </div>
+        <!------------Add record ------------>
+    <div  *ngIf="allData.data==null&&!initial_msg">
+        <h3>Add User</h3>
+        <form>
+            <label class="labelclass"> First Name :</label><br><input type="text" class="formclass" placeholder="Enter First Name"><br>
+            <label class="labelclass"> Last Name :</label><br><input type="text" class="formclass" placeholder="Enter First Name"><br><br>
+            <button class="darkbutton">Submit</button>
+            <button class="normalbutton">Cancel</button>
+        </form>
+    </div>
+</div>
